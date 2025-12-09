@@ -13,6 +13,7 @@ import {
   ObservationResultSchema,
   SuccessResponseSchema 
 } from '../schemas/index.js';
+import { visualizeGraph } from './visualize.js';
 
 /**
  * Register all tools on the MCP server
@@ -207,6 +208,29 @@ export function registerTools(server: McpServer, getManager: () => KnowledgeGrap
       return {
         content: [{ type: "text" as const, text: JSON.stringify(graph, null, 2) }],
         structuredContent: { ...graph }
+      };
+    }
+  );
+
+  // Visualize Graph
+  server.registerTool(
+    "visualize_graph",
+    {
+      title: "Visualize Graph",
+      description: "Open an interactive visualization of the knowledge graph in the browser. Entities are displayed as nodes and relations as edges.",
+      inputSchema: {},
+      outputSchema: {
+        success: z.boolean(),
+        message: z.string(),
+        url: z.string()
+      }
+    },
+    async () => {
+      const graph = await getManager().readGraph();
+      const url = await visualizeGraph(graph);
+      return {
+        content: [{ type: "text" as const, text: `Knowledge graph visualization opened in browser at ${url}` }],
+        structuredContent: { success: true, message: "Visualization opened in browser", url }
       };
     }
   );

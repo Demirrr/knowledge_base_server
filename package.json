@@ -1,6 +1,6 @@
 {
   "name": "knowledge-base-server",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A knowledge graph memory server based on MCP protocol",
   "type": "module",
   "main": "dist/lib.js",

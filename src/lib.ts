@@ -17,5 +17,8 @@ export { KnowledgeGraphManager } from './manager/index.js';
 // Server
 export { createServer, startServer, registerTools } from './server/index.js';
 
+// Visualization
+export { visualizeGraph, startVisualizationServer, openInBrowser } from './server/visualize.js';
+
 // Utils
 export { getDirname, getDefaultMemoryPath, resolveMemoryFilePath } from './utils/path.js';

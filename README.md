@@ -195,6 +195,18 @@ Retrieve specific nodes by name.
 
 **Output**: Filtered graph containing requested entities and relations between them
 
+### visualize_graph
+Open an interactive visualization of the knowledge graph in your browser.
+
+**Input**: None
+
+**Output**: Opens a browser window with an interactive D3.js visualization where:
+- Entities are displayed as colored nodes (color-coded by entity type)
+- Relations are displayed as directed edges with labels
+- Nodes can be dragged to rearrange the layout
+- Click on a node to see its details (observations and relations)
+- Zoom and pan to navigate large graphs
+
 ## Integration
 
 ### Using with VS Code (GitHub Copilot)
@@ -294,6 +306,7 @@ Once connected, these tools become available in Copilot Chat:
 | `read_graph` | Read the entire knowledge graph |
 | `search_nodes` | Search for nodes by query |
 | `open_nodes` | Retrieve specific nodes by name |
+| `visualize_graph` | Open interactive graph visualization in browser |
 
 ### Using with Claude Desktop
 
