@@ -1,7 +1,7 @@
 /**
- * Knowledge Graph Visualization Server
+ * Knowledge Base Visualization Server
  * 
- * Creates an interactive visualization of the knowledge graph using D3.js
+ * Creates an interactive visualization of the knowledge base using D3.js
  * and serves it via a local HTTP server.
  */
 
@@ -31,7 +31,7 @@ function generateVisualizationHTML(graph: KnowledgeGraph): string {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Knowledge Graph Visualization</title>
+  <title>Knowledge Base Visualization</title>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
     * {
@@ -251,7 +251,7 @@ function generateVisualizationHTML(graph: KnowledgeGraph): string {
 </head>
 <body>
   <div class="header">
-    <h1>Knowledge Graph</h1>
+    <h1>Knowledge Base</h1>
     <div class="stats">
       <span class="stat" id="node-count">Nodes: 0</span>
       <span class="stat" id="edge-count">Edges: 0</span>

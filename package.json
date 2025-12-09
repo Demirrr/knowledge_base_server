@@ -19,6 +19,7 @@
     "start": "node dist/index.js",
     "dev": "tsc && node dist/index.js",
     "test": "vitest",
+    "visualize": "node examples/visualize.js",
     "prepublishOnly": "npm run build && npm test"
   },
   "keywords": [

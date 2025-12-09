@@ -410,10 +410,15 @@ knowledge_base_server/
 │   │   └── KnowledgeGraphManager.ts  # Graph operations
 │   ├── server/            # MCP server setup
 │   │   ├── index.ts       # Server initialization
-│   │   └── tools.ts       # Tool registrations
+│   │   ├── tools.ts       # Tool registrations
+│   │   └── visualize.ts   # Browser visualization
 │   └── utils/             # Utility functions
 │       ├── index.ts       # Module exports
 │       └── path.ts        # Path resolution utilities
+├── examples/              # Example scripts
+│   ├── README.md          # Examples documentation
+│   ├── visualize.js       # Visualization demo script
+│   └── sample_knowledge_base.jsonl  # Sample data
 ├── tests/                 # Test suite
 │   └── manager.test.ts    # KnowledgeGraphManager tests
 ├── docs/                  # Documentation
@@ -442,11 +447,29 @@ npm run build     # Build the project
 npm start         # Run the server
 npm test          # Run tests
 npm run watch     # Watch mode for development
+npm run visualize # Open graph visualization in browser
 ./setup.sh        # Automated setup
 ```
 
+### Try the Visualization
+
+After building, you can instantly visualize a sample knowledge graph:
+
+```bash
+npm run visualize
+```
+
+Or visualize your own knowledge base:
+
+```bash
+node examples/visualize.js path/to/your/knowledge_base.jsonl
+```
+
+See [examples/README.md](examples/README.md) for more details.
+
 ## 📚 Additional Documentation
 
+- **[examples/README.md](examples/README.md)** - Visualization examples
 - **[docs/EXAMPLES.md](docs/EXAMPLES.md)** - Usage examples and patterns
 - **[docs/CONFIGURATION.md](docs/CONFIGURATION.md)** - Configuration guide
 - **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Technical architecture
