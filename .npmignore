@@ -1,0 +1,21 @@
+# Source files
+src/
+tests/
+docs/
+
+# Config files
+tsconfig.json
+vitest.config.ts
+setup.sh
+Dockerfile
+
+# Development files
+.gitignore
+.vscode/
+.idea/
+*.log
+*.jsonl
+
+# Git
+.git/
+.github/
