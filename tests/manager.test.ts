@@ -170,4 +170,53 @@ describe('KnowledgeGraphManager', () => {
       expect(result.entities.map(e => e.name)).toContain('Bob');
     });
   });
+
+  describe('searchObservations', () => {
+    it('should search observations within a specific entity', async () => {
+      await manager.createEntities([
+        { 
+          name: 'Alice', 
+          entityType: 'person', 
+          observations: ['works at TechCorp', 'lives in New York', 'loves coding'] 
+        },
+      ]);
+
+      const result = await manager.searchObservations('Alice', 'works');
+      expect(result).toHaveLength(1);
+      expect(result).toContain('works at TechCorp');
+    });
+
+    it('should return multiple matching observations', async () => {
+      await manager.createEntities([
+        { 
+          name: 'Alice', 
+          entityType: 'person', 
+          observations: ['works at TechCorp', 'worked at StartupXYZ', 'lives in New York'] 
+        },
+      ]);
+
+      const result = await manager.searchObservations('Alice', 'work');
+      expect(result).toHaveLength(2);
+      expect(result).toContain('works at TechCorp');
+      expect(result).toContain('worked at StartupXYZ');
+    });
+
+    it('should be case insensitive', async () => {
+      await manager.createEntities([
+        { 
+          name: 'Alice', 
+          entityType: 'person', 
+          observations: ['Works at TechCorp', 'lives in New York'] 
+        },
+      ]);
+
+      const result = await manager.searchObservations('Alice', 'works');
+      expect(result).toHaveLength(1);
+      expect(result).toContain('Works at TechCorp');
+    });
+
+    it('should throw error for non-existent entity', async () => {
+      await expect(manager.searchObservations('NonExistent', 'query')).rejects.toThrow('Entity with name NonExistent not found');
+    });
+  });
 });

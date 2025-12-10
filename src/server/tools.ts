@@ -11,6 +11,7 @@ import {
   ObservationInputSchema, 
   ObservationDeletionSchema,
   ObservationResultSchema,
+  SearchObservationsSchema,
   SuccessResponseSchema 
 } from '../schemas/index.js';
 import { visualizeGraph } from './visualize.js';
@@ -212,12 +213,32 @@ export function registerTools(server: McpServer, getManager: () => KnowledgeGrap
     }
   );
 
+  // Search Observations
+  server.registerTool(
+    "search_observations",
+    {
+      title: "Search Observations",
+      description: "Search for observations within a specific entity's observations that match a query",
+      inputSchema: SearchObservationsSchema.shape,
+      outputSchema: {
+        observations: z.array(z.string())
+      }
+    },
+    async ({ entityName, query }) => {
+      const result = await getManager().searchObservations(entityName, query);
+      return {
+        content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }],
+        structuredContent: { observations: result }
+      };
+    }
+  );
+
   // Visualize Graph
   server.registerTool(
     "visualize_graph",
     {
       title: "Visualize Graph",
-      description: "Open an interactive visualization of the knowledge graph in the browser. Entities are displayed as nodes and relations as edges.",
+      description: "Open an interactive visualization of the knowledge graph in the browser. Entities are displayed as nodes and relations as edges. The visualization updates live as the graph changes.",
       inputSchema: {},
       outputSchema: {
         success: z.boolean(),
@@ -227,10 +248,12 @@ export function registerTools(server: McpServer, getManager: () => KnowledgeGrap
     },
     async () => {
       const graph = await getManager().readGraph();
-      const url = await visualizeGraph(graph);
+      // Pass graph loader for live updates
+      const graphLoader = () => getManager().readGraph();
+      const url = await visualizeGraph(graph, graphLoader);
       return {
-        content: [{ type: "text" as const, text: `Knowledge graph visualization opened in browser at ${url}` }],
-        structuredContent: { success: true, message: "Visualization opened in browser", url }
+        content: [{ type: "text" as const, text: `Knowledge graph visualization opened in browser at ${url}. The visualization will update live as you modify the graph.` }],
+        structuredContent: { success: true, message: "Visualization opened in browser with live updates", url }
       };
     }
   );

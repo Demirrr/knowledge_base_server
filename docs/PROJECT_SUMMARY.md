@@ -16,6 +16,7 @@ The Model Context Protocol (MCP) is a standard protocol that allows AI assistant
 ✅ **Full-Text Search** - Search across entity names, types, and observations
 ✅ **Persistent Storage** - Data stored in JSONL format for durability
 ✅ **MCP Compatible** - Works with Claude Desktop, VS Code, and other MCP clients
+✅ **Graph Visualization** - Interactive D3.js browser-based visualization
 ✅ **Docker Support** - Containerized deployment with volume persistence
 ✅ **TypeScript** - Fully typed codebase with strict type checking
 ✅ **Tested** - Comprehensive test suite included
@@ -102,6 +103,7 @@ The server exposes 9 tools via MCP:
 | `read_graph` | Retrieve the entire knowledge graph |
 | `search_nodes` | Full-text search across the graph |
 | `open_nodes` | Get specific entities by name |
+| `visualize_graph` | Interactive D3.js graph visualization |
 
 ## Use Cases
 
@@ -180,7 +182,8 @@ docker run -i --rm -v kb-data:/app/data kb-server
 
 Potential improvements for future versions:
 
-- [ ] Add graph visualization endpoint
+- [x] Live visualization updates (polling every 2s when graph changes)
+- [x] Add graph visualization endpoint
 - [ ] Implement indexing for faster search
 - [ ] Support for graph export (GraphML, DOT)
 - [ ] Bulk operations API

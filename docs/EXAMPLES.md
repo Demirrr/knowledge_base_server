@@ -99,6 +99,17 @@ This will return all entities whose name, type, or observations contain "enginee
 }
 ```
 
+### Visualizing the Graph
+
+```json
+{
+  "tool": "visualize_graph",
+  "arguments": {}
+}
+```
+
+Opens interactive D3.js visualization at `http://127.0.0.1:3000` with **live updates** (2s polling). Features: force-directed layout, zoom/pan, node drag, click details sidebar, entity type colors, relation labels toggle, pause/resume live updates.
+
 This returns the specified entities and any relations between them.
 
 ### Reading the Entire Graph

@@ -13,12 +13,18 @@ A knowledge graph memory server based on the Model Context Protocol (MCP). This 
 - **Search Capabilities**: Search across entity names, types, and observations
 - **Persistent Storage**: Data stored in JSONL format for durability
 
-## Prerequisites
+## Quick Start
 
-- Node.js 18 or higher
-- npm or yarn
+```bash
+# Install globally
+npm install -g knowledge-base-server
 
-## Installation
+# Run the server
+knowledge-base-server
+```
+
+<details>
+<summary>📦 Installation Options</summary>
 
 ### Option 1: Install from npm (Recommended)
 
@@ -50,7 +56,12 @@ knowledge-base-server
    npm run build
    ```
 
-## Usage
+**Prerequisites**: Node.js 18 or higher, npm or yarn
+
+</details>
+
+<details>
+<summary>🚀 Usage & Configuration</summary>
 
 ### Running the Server
 
@@ -86,7 +97,10 @@ KNOWLEDGE_BASE_FILE_PATH=/path/to/custom/knowledge_base.jsonl npm start
 
 By default, the knowledge base is stored in `knowledge_base.jsonl` in the dist directory.
 
-## Core Concepts
+</details>
+
+<details>
+<summary>📚 Core Concepts</summary>
 
 ### Entities
 
@@ -125,7 +139,10 @@ Observations are discrete pieces of information about an entity:
 - Can be added or removed independently
 - Should be atomic (one fact per observation)
 
-## API Tools
+</details>
+
+<details>
+<summary>🔧 API Tools</summary>
 
 ### create_entities
 Create multiple new entities in the knowledge graph.
@@ -195,6 +212,15 @@ Retrieve specific nodes by name.
 
 **Output**: Filtered graph containing requested entities and relations between them
 
+### search_observations
+Search for observations within a specific entity's observations that match a query.
+
+**Input**: 
+- `entityName` (string): The name of the entity to search observations for
+- `query` (string): The query string to search within the entity's observations
+
+**Output**: Array of observation strings that match the query
+
 ### visualize_graph
 Open an interactive visualization of the knowledge graph in your browser.
 
@@ -207,76 +233,85 @@ Open an interactive visualization of the knowledge graph in your browser.
 - Click on a node to see its details (observations and relations)
 - Zoom and pan to navigate large graphs
 
-## Integration
+</details>
+
+<details>
+<summary>🔌 Integration (VS Code & Claude Desktop)</summary>
 
 ### Using with VS Code (GitHub Copilot)
 
 VS Code supports MCP servers through GitHub Copilot Chat. Here's how to set it up:
 
-#### Step 1: Configure VS Code Settings
+#### Step 1: Configure MCP Settings
 
-1. Open VS Code Settings JSON:
+1. Open VS Code MCP configuration:
    - Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS)
-   - Type "Preferences: Open User Settings (JSON)"
+   - Type "Preferences: Open MCP Settings (JSON)"
    - Press Enter
 
-2. Add the MCP server configuration to your `settings.json`:
+2. Add the MCP server configuration to your `mcp.json`:
 
-   **Option A: Using npx (Recommended - no build required)**
+   **Option A: Using local build (Recommended for development)**
    ```json
    {
-     "mcp": {
-       "servers": {
-         "knowledge-base": {
-           "command": "npx",
-           "args": ["-y", "knowledge-base-server"],
-           "env": {
-             "KNOWLEDGE_BASE_FILE_PATH": "/path/to/your/knowledge_base.jsonl"
-           }
-         }
+     "servers": {
+       "knowledge-base": {
+         "command": "node",
+         "args": ["/absolute/path/to/knowledge_base_server/dist/index.js"],
+         "env": {
+           "KNOWLEDGE_BASE_FILE_PATH": "/path/to/your/knowledge_base.jsonl"
+         },
+         "type": "stdio"
        }
-     }
+     },
+     "inputs": []
    }
    ```
 
-   **Option B: Using global installation**
+   **Option B: Using npx (no build required)**
    ```json
    {
-     "mcp": {
-       "servers": {
-         "knowledge-base": {
-           "command": "knowledge-base-server",
-           "env": {
-             "KNOWLEDGE_BASE_FILE_PATH": "/path/to/your/knowledge_base.jsonl"
-           }
-         }
+     "servers": {
+       "knowledge-base": {
+         "command": "npx",
+         "args": ["-y", "knowledge-base-server"],
+         "env": {
+           "KNOWLEDGE_BASE_FILE_PATH": "/path/to/your/knowledge_base.jsonl"
+         },
+         "type": "stdio"
        }
-     }
+     },
+     "inputs": []
    }
    ```
 
-   **Option C: Using local build**
+   **Option C: Using global installation**
    ```json
    {
-     "mcp": {
-       "servers": {
-         "knowledge-base": {
-           "command": "node",
-           "args": ["/absolute/path/to/knowledge_base_server/dist/index.js"],
-           "env": {
-             "KNOWLEDGE_BASE_FILE_PATH": "/absolute/path/to/knowledge_base_server/dist/knowledge_base.jsonl"
-           }
-         }
+     "servers": {
+       "knowledge-base": {
+         "command": "knowledge-base-server",
+         "env": {
+           "KNOWLEDGE_BASE_FILE_PATH": "/path/to/your/knowledge_base.jsonl"
+         },
+         "type": "stdio"
        }
-     }
+     },
+     "inputs": []
    }
    ```
 
    > **Important**: Replace paths with actual paths to your desired storage location.
 
-#### Step 3: Reload VS Code
+#### Step 2: Reload VS Code
 
 Press `Ctrl+Shift+P` and run **"Developer: Reload Window"** to apply the new settings.
+
+#### Step 3: Start the MCP Server
+
+1. Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS)
+2. Type **"MCP: List Servers"** and press Enter
+3. Find `knowledge-base` in the list and click the **Start** button to start the server
 
 #### Step 4: Verify Connection
 
@@ -284,12 +319,12 @@ Open GitHub Copilot Chat and try one of these commands:
 - "Read the knowledge graph"
 - "Create an entity named Test with type person"
 
-#### VS Code Settings Location
+#### MCP Configuration File Location
 
-The settings file is typically located at:
-- **Linux**: `~/.config/Code/User/settings.json`
-- **macOS**: `~/Library/Application Support/Code/User/settings.json`
-- **Windows**: `%APPDATA%\Code\User\settings.json`
+The MCP configuration file (`mcp.json`) is typically located at:
+- **Linux**: `~/.config/Code/User/mcp.json`
+- **macOS**: `~/Library/Application Support/Code/User/mcp.json`
+- **Windows**: `%APPDATA%\Code\User\mcp.json`
 
 #### Available MCP Tools
 
@@ -306,6 +341,7 @@ Once connected, these tools become available in Copilot Chat:
 | `read_graph` | Read the entire knowledge graph |
 | `search_nodes` | Search for nodes by query |
 | `open_nodes` | Retrieve specific nodes by name |
+| `search_observations` | Search observations within a specific entity |
 | `visualize_graph` | Open interactive graph visualization in browser |
 
 ### Using with Claude Desktop
@@ -359,7 +395,10 @@ Once connected, these tools become available in Copilot Chat:
 
 3. Restart Claude Desktop
 
-## Your First Knowledge Graph
+</details>
+
+<details>
+<summary>🎯 Your First Knowledge Graph</summary>
 
 Try these commands in Claude or VS Code Copilot Chat:
 
@@ -378,7 +417,12 @@ Try these commands in Claude or VS Code Copilot Chat:
 5. **View everything**:
    "Read the entire knowledge graph"
 
-## Testing
+</details>
+
+<details>
+<summary>🧪 Testing & Development</summary>
+
+### Testing
 
 Run the test suite:
 
@@ -391,8 +435,6 @@ You can also test the server with the MCP Inspector:
 ```bash
 npx @modelcontextprotocol/inspector node dist/index.js
 ```
-
-## Development
 
 ### Project Structure
 
@@ -437,8 +479,6 @@ knowledge_base_server/
 └── setup.sh               # Quick setup script
 ```
 
-## 🚀 Quick Reference
-
 ### Available Commands
 
 ```bash
@@ -467,18 +507,10 @@ node examples/visualize.js path/to/your/knowledge_base.jsonl
 
 See [examples/README.md](examples/README.md) for more details.
 
-## 📚 Additional Documentation
+</details>
 
-- **[examples/README.md](examples/README.md)** - Visualization examples
-- **[docs/EXAMPLES.md](docs/EXAMPLES.md)** - Usage examples and patterns
-- **[docs/CONFIGURATION.md](docs/CONFIGURATION.md)** - Configuration guide
-- **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Technical architecture
-- **[docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)** - Development guide
-- **[docs/DOCKER.md](docs/DOCKER.md)** - Docker usage
-- **[docs/TESTING.md](docs/TESTING.md)** - Testing guide
-- **[docs/PROJECT_SUMMARY.md](docs/PROJECT_SUMMARY.md)** - Complete project overview
-
-## Troubleshooting
+<details>
+<summary>❓ Troubleshooting</summary>
 
 ### Server won't start
 
@@ -496,6 +528,19 @@ See [examples/README.md](examples/README.md) for more details.
 - Make sure the server builds without errors: `npm run build`
 - Check application logs for error messages
 - For VS Code: Reload the window after changing settings
+
+</details>
+
+## 📚 Additional Documentation
+
+- **[examples/README.md](examples/README.md)** - Visualization examples
+- **[docs/EXAMPLES.md](docs/EXAMPLES.md)** - Usage examples and patterns
+- **[docs/CONFIGURATION.md](docs/CONFIGURATION.md)** - Configuration guide
+- **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Technical architecture
+- **[docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)** - Development guide
+- **[docs/DOCKER.md](docs/DOCKER.md)** - Docker usage
+- **[docs/TESTING.md](docs/TESTING.md)** - Testing guide
+- **[docs/PROJECT_SUMMARY.md](docs/PROJECT_SUMMARY.md)** - Complete project overview
 
 ## 🤝 Contributing
 

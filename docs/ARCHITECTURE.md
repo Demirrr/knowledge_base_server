@@ -115,6 +115,7 @@ Client Request (query: "engineer")
 - `read_graph`
 - `search_nodes`
 - `open_nodes`
+- `visualize_graph`
 
 ### KnowledgeGraphManager
 
@@ -196,6 +197,21 @@ knowledge_base/
 - **File not found**: Returns empty graph on first run
 - **Duplicate prevention**: Silently skips duplicate entities/relations
 - **Validation errors**: Zod schema validation catches invalid inputs
+
+## Visualization
+
+Interactive D3.js-based graph visualization served via local HTTP with live updates.
+
+```
+visualizeGraph(graph, graphLoader?) → startVisualizationServer(port:3000, graphLoader) → openInBrowser(url)
+```
+
+**Components:** `src/server/visualize.ts`
+- `generateVisualizationHTML()`: Renders nodes/edges with D3 force layout
+- `startVisualizationServer()`: HTTP server on 127.0.0.1, serves `/api/graph` for polling
+- `openInBrowser()`: Cross-platform (darwin/win32/linux)
+
+**Features:** Zoom/pan, drag nodes, click for details, entity type colors, toggle labels, **live updates** (2s polling, pause/resume).
 
 ## Performance Considerations
 

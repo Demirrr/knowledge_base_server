@@ -47,6 +47,14 @@ export const ObservationResultSchema = z.object({
 });
 
 /**
+ * Schema for search observations input
+ */
+export const SearchObservationsSchema = z.object({
+  entityName: z.string().describe("The name of the entity to search observations for"),
+  query: z.string().describe("The query string to search within the entity's observations")
+});
+
+/**
  * Schema for success response
  */
 export const SuccessResponseSchema = z.object({

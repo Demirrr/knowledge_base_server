@@ -199,4 +199,18 @@ export class KnowledgeGraphManager {
       relations: filteredRelations,
     };
   }
+
+  /**
+   * Search observations of a specific entity
+   */
+  async searchObservations(entityName: string, query: string): Promise<string[]> {
+    const graph = await this.loadGraph();
+    const entity = graph.entities.find(e => e.name === entityName);
+    if (!entity) {
+      throw new Error(`Entity with name ${entityName} not found`);
+    }
+    return entity.observations.filter(observation => 
+      observation.toLowerCase().includes(query.toLowerCase())
+    );
+  }
 }
